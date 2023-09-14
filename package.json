@@ -1,0 +1,28 @@
+{
+  "name": "CookieAward",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "db:migrate": "prisma migrate dev --name init",
+    "db:pull": "prisma db pull",
+    "commands:reload": "ts-node -r tsconfig-paths/register src/scripts/register.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "5.3.0",
+    "discord.js": "^14.13.0",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "prisma": "^5.3.0",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.2.2"
+  }
+}
