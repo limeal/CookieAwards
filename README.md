@@ -1,3 +1,5 @@
+![Cookie Logo](/src/assets/cookie.png "Miam")
+
 Cookie clicker discord bot that save progress of user and display a leaderboard
 
 Steps:
