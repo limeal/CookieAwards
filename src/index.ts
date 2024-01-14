@@ -127,6 +127,10 @@ for (const file of commandFiles) {
                     pricesMessage += `${price.name}: ${price.description} (${price.level} cookies)\n`;
                 }
 
+                if (pricesMessage === '') {
+                    pricesMessage = 'No prices yet!';
+                }
+
                 await interaction.reply({
                     content: pricesMessage,
                     ephemeral: true,

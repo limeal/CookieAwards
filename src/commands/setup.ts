@@ -4,7 +4,7 @@ export default {
     data: new SlashCommandBuilder()
         .setName('setup')
         .setDescription('Setup the bot for your server.')
-        .addChannelOption(option => option.setName('channel').setDescription('The channel to setup the cookie clicker').setRequired(true)),
+        .addChannelOption(option => option.setName('channel').setDescription('The channel to setup the cookie clicker').setRequired(false)),
     execute: async (interaction: CommandInteraction) => {
         // TODO: Create a cookie clicker in the channel, put an cookie image + 2 buttons in reaction one to view how many cookies you have and one to click the cookie
         // At each interaction, send an ephemeral message with the number of cookies you have
@@ -12,12 +12,18 @@ export default {
         // If you click the view button, send an ephemeral message with the number of cookies you have
         const guild = interaction.guild;
         if (!guild) return;
+
+        let textChannel = interaction.channel as TextChannel;
         
-        const channelId = interaction.options.get('channel')?.channel?.id;
-        if (!channelId) return;
-        const channel = await guild.channels.fetch(channelId!);
-        if (!channel || !channel.isTextBased()) return;
-        const textChannel = channel as TextChannel;
+        const channelOpt = interaction.options.get('channel');
+        if (channelOpt) {
+            const channelId = channelOpt.channel?.id;
+            if (!channelId) return;
+            const channel = await guild.channels.fetch(channelId!);
+            if (!channel || !channel.isTextBased()) return;
+            textChannel = channel as TextChannel;
+        }
+        //const textChannel = channel as TextChannel;
 
 
         // Add cookie button to message
@@ -49,11 +55,23 @@ export default {
                 }
             ],
         });
+
+        if (textChannel.id === interaction.channelId) {
+            return await interaction.reply({
+                content: 'Click the cookie to get cookies and earn prices!',
+                components: [row],
+            });
+        }
         
         // Send cookie image in channel with a text message
         await textChannel.send({
             content: 'Click the cookie to get cookies and earn prices!',
             components: [row],
+        });
+
+        await interaction.reply({
+            content: 'Done! Check the channel to see your cookie clicker!',
+            ephemeral: true,
         });
     },
 };
